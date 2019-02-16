@@ -4,6 +4,7 @@
 #### Note: This is a fork from [maengkom/boxapi](https://github.com/maengkom/boxapi).
 
 The fork provides functionality to:
+- Use the Box service account instead of an app user (just leave empty `app_user_name` in the configuration parameters).
 - Provide the private key optionally as a string instead of a file (use `private_key` instead of `private_key_file`).
 ---
 
@@ -126,7 +127,7 @@ $config = array(
         'client_secret'		=> '',
         'redirect_uri'		=> '',
         'enterprise_id'		=> '',
-        'app_user_name'		=> '',
+        'app_user_name'		=> '', // Leave empty to use the App's service account.
         'app_user_id'		=> '',
         'kid_value'			=> '',
         'passphrase'		=> '',

@@ -50,10 +50,14 @@ class BoxAppUser
 		// get enterprise admin token to check if app_user_name exist
 		// if exist, get the id and put it on app_user_id
 		$this->getToken($this->config['enterprise_id'], "enterprise");
-		$this->checkUser($this->config['app_user_name']);
 
-		// user exist, and get token for the user to access box content
-		$this->getToken();
+		// If "app_user_name", run as the app's service account.
+		if (!empty($config['app_user_name'])) {
+		  $this->checkUser($this->config['app_user_name']);
+
+      // user exist, and get token for the user to access box content
+      $this->getToken();
+    }
 	}
 
 	public function getAccessToken()
