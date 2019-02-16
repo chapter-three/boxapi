@@ -1,5 +1,12 @@
 # Box API v.2 For PHP
 
+---
+#### Note: This is a fork from [maengkom/boxapi](https://github.com/maengkom/boxapi).
+
+The fork provides functionality to:
+- Provide the private key optionally as a string instead of a file (use `private_key` instead of `private_key_file`).
+---
+
 This is a package can be used with PHP Project and especially integrate with Laravel. This package will serve latest Box API for App User for Enterprise to communicate server to server (eg. Uploading files to company Box behind the scene without ask grant to your web visitor, and Standard User for common user accesing their own Box account, and this will need grant access from their account.
 
 ## Installation on Laravel
@@ -125,12 +132,16 @@ $config = array(
         'passphrase'		=> '',
         'expiration'		=> 60,
         'private_key_file'	=> 'private_key.pem',
+        'private_key'	    => '*** Private key here ***',
         
 $box = new BoxAppUser($config); 		// For App User or
 $box = new BoxStandardUser($config) 	// For Standard User
 ```
 
-Set your private key file out of folder that accessible for internet user.
+Note on the **private key**:
+- You can use a private key file (`private_key_file`), or pass it directly as a string in `private_key`.
+- Important: If both variables are set, it will use `private_key`.
+- If using a private key file, set the file outside of a folder that is accessible by the internet user.
 
 
 

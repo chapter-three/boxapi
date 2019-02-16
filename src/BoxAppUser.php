@@ -28,6 +28,7 @@ class BoxAppUser
         'public_key_id'		=> '',
         'passphrase'		=> '',
         'expiration'		=> 60,
+        'private_key'	=> '',
         'private_key_file'	=> 'private_key.pem',
     );
 
@@ -92,9 +93,16 @@ class BoxAppUser
 		$signer = new Sha256();
 
 		// Set path of private_key.pem. Overwrite the default file as sample.
-		$privateKeyString = new Key(
-			"file://" . $this->config['private_key_file'], $this->config['passphrase']
-		);
+		if (!empty($this->config['private_key'])) {
+		  $privateKeyString = new Key(
+		  $this->config['private_key'], $this->config['passphrase']
+		  );
+		}
+		else {
+		  $privateKeyString = new Key(
+		    "file://" . $this->config['private_key_file'], $this->config['passphrase']
+		  );
+		}
 
 		$assertion = (new Builder())
 			->setHeader('kid', $this->config['public_key_id'])
