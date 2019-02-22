@@ -14,13 +14,13 @@ trait BoxContent {
 	/* Get the details of the mentioned folder */
 	public function getFolderInfo($folder_id, $json = false) {
 		$url = $this->api_url . "/folders/$folder_id";
-		return $this->get($url, $json);
+		return $this->get($url, array(), $json);
 	}
 
 	/* Get the list of items in the mentioned folder */
-	public function getFolderItems($folder_id, $json = false) {
+	public function getFolderItems($folder_id, $query_params = array(), $json = false) {
 		$url = $this->api_url . "/folders/$folder_id/items";
-		return $this->get($url, $json);
+		return $this->get($url, $query_params, $json);
 	}
 
 	/* Create folder */
@@ -60,19 +60,19 @@ trait BoxContent {
 	/* Get folder collaborations */
 	public function getFolderCollaborations($folder_id, $json = false) {
 		$url = $this->api_url . "/folders/$folder_id/collaborations";
-		return $this->get($url, $json);
+		return $this->get($url, array(), $json);
 	}
 
 	/* Get trashed items */
 	public function getTrashedItems($limit = 10, $offset = 0, $json = false) {
 		$url = $this->api_url . "/folders/trash/items?limit=$limit&offset=$offset";
-		return $this->get($url, $json);
+		return $this->get($url, array(), $json);
 	}
 
 	/* Get trashed folder */
 	public function getTrashedFolder($folder_id, $json = false) {
 		$url = $this->api_url . "/folders/$folder_id/trash";
-		return $this->get($url, $json);
+		return $this->get($url, array(), $json);
 	}
 
 	/* Delete folder permanently */
@@ -101,7 +101,7 @@ trait BoxContent {
 	/* Get the details of the mentioned file */
 	public function getFileInfo($file_id, $json = false) {
 		$url = $this->api_url . "/files/$file_id";
-		return $this->get($url, $json);
+		return $this->get($url, array(), $json);
 	}
 
 	/* Update file */
@@ -204,7 +204,7 @@ trait BoxContent {
 	/* Get embed link of a file */
 	public function getEmbedLink($file_id, $json = false) {
 		$url = $this->api_url . "/files/$file_id?fields=expiring_embed_link";
-		return $this->get($url, $json);
+		return $this->get($url, array(), $json);
 	}
 
 	/* Share a file */
@@ -217,7 +217,7 @@ trait BoxContent {
 	/* Get trashed file */
 	public function getTrashedFile($file_id, $json = false) {
 		$url = $this->api_url . "/files/$file_id/trash";
-		return $this->get($url, $json);
+		return $this->get($url, array(), $json);
 	}
 
 	/* Delete file permanently */
@@ -238,13 +238,13 @@ trait BoxContent {
 	/* View comments */
 	public function viewComments($file_id, $json = false) {
 		$url = $this->api_url . "/files/$file_id/comments";
-		return $this->get($url, $json);
+		return $this->get($url, array(), $json);
 	}
 
 	/* Get file tasks */
 	public function getFileTasks($file_id, $json = false) {
 		$url = $this->api_url . "/files/$file_id/tasks";
-		return $this->get($url, $json);
+		return $this->get($url, array(), $json);
 	}
 
     /* Search for files/folders */
@@ -252,13 +252,16 @@ trait BoxContent {
     {
 
         $url = $this->api_url . "/search?query=$query&type=$type&scope=$scope&limit=$limit";
-        return $this->get($url, $json);
+        return $this->get($url, array(), $json);
     }
 
 
 	// ================================= Helper Methods ==================================
 
-	protected function get($url, $json = false, $data = '') {
+	protected function get($url, $query_params = array(), $json = false, $data = '') {
+    if (!empty($query_params)) {
+      $url = $url . '?' . http_build_query($query_params);
+    }
 		$data = shell_exec("curl $url $this->auth_header $data");
 		if ($json) {
 			return $data;
