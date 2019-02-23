@@ -266,13 +266,36 @@ trait BoxContent {
     /* Get the details of the mentioned shared link */
     public function getSharedItemInfo($shared_link, $shared_link_password = NULL, $query_params = array(), $json = false) {
         $url = $this->api_url . "/shared_items";
-        $header 	= " -H \"BoxApi: shared_link=$shared_link\" ";
+        $header = " -H \"BoxApi: shared_link=$shared_link\" ";
         $params = array();
         if ($shared_link_password) {
             $params['shared_link_password'] = $shared_link_password;
         }
         $params += $query_params;
         return $this->get($url, $params, $json, $header);
+    }
+
+
+    /*
+    |
+    | ================================= Metadata API Methods ==================================
+    | Check Box documentation here https://box-content.readme.io/reference#get-metadata
+    |
+    */
+
+    /* Get the metadata on file */
+    public function getMetaOnFile($file_id, $scope, $template, $json = false) {
+        $url = $this->api_url . "/files/$file_id/metadata/$scope/$template";
+        return $this->get($url, array(), $json);
+    }
+
+    /* Update metadata on file */
+    public function updateMetaOnFile($file_id, $scope, $template, $operations = array(), $json = false) {
+        $url = $this->api_url . "/files/$file_id/metadata/$scope/$template";
+        $header = " -H \"Content-Type: application/json-patch+json\" ";
+        $operations = json_encode($operations);
+        $data = $header . "-d '$operations'";
+        return $this->put($url, $json, $data);
     }
 
 
