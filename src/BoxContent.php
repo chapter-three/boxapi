@@ -235,11 +235,11 @@ trait BoxContent {
 		return $this->post($url, $json, $data);
 	}
 
-	/* View comments */
-	public function viewComments($file_id, $json = false) {
-		$url = $this->api_url . "/files/$file_id/comments";
-		return $this->get($url, array(), $json);
-	}
+  /* View comments */
+  public function viewComments($file_id, $query_params = array(), $json = false) {
+    $url = $this->api_url . "/files/$file_id/comments";
+    return $this->get($url, $query_params, $json);
+  }
 
 	/* Get file tasks */
 	public function getFileTasks($file_id, $json = false) {
