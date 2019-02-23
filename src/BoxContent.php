@@ -256,6 +256,26 @@ trait BoxContent {
     }
 
 
+    /*
+    |
+    | ================================= Shared Items API Methods ==================================
+    | Check Box documentation here https://box-content.readme.io/reference#get-a-shared-item
+    |
+    */
+
+    /* Get the details of the mentioned shared link */
+    public function getSharedItemInfo($shared_link, $shared_link_password = NULL, $query_params = array(), $json = false) {
+        $url = $this->api_url . "/shared_items";
+        $header 	= " -H \"BoxApi: shared_link=$shared_link\" ";
+        $params = array();
+        if ($shared_link_password) {
+            $params['shared_link_password'] = $shared_link_password;
+        }
+        $params += $query_params;
+        return $this->get($url, $params, $json, $header);
+    }
+
+
 	// ================================= Helper Methods ==================================
 
 	protected function get($url, $query_params = array(), $json = false, $data = '') {
