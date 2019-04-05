@@ -298,6 +298,13 @@ trait BoxContent {
         return $this->put($url, $json, $data);
     }
 
+  /* Create metadata on file */
+  public function createMetaOnFile($file_id, $scope, $template, $metadata, $json = false) {
+    $url = $this->api_url . "/files/$file_id/metadata/$scope/$template";
+    $data = "-d '" . json_encode($metadata) . "'";
+    return $this->post($url, $json, $data);
+    //return $this->post($url, $json, $metadata);
+  }
 
 	// ================================= Helper Methods ==================================
 
@@ -313,13 +320,13 @@ trait BoxContent {
 		}
 	}
 
-	protected function post($url, $json = false, $data = '') {
-		$data = shell_exec("curl $url $this->auth_header $data -X POST");
-		if ($json) {
-			return $data;
-		} else {
-			return json_decode($data, true);
-		}
+	protected function post($url, $json = false, $data = []) {
+    $data = shell_exec("curl $url $this->auth_header -H 'Content-Type: application/json' $data -X POST");
+    if ($json) {
+      return $data;
+    } else {
+      return json_decode($data, true);
+    }
 	}
 
 	protected function put($url, $json = false, $data = '') {
