@@ -320,7 +320,7 @@ trait BoxContent {
 		}
 	}
 
-	protected function post($url, $json = false, $data = []) {
+	protected function post($url, $json = false, $data = '{}') {
     $data = shell_exec("curl $url $this->auth_header -H 'Content-Type: application/json' $data -X POST");
     if ($json) {
       return $data;
