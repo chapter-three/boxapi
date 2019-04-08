@@ -258,6 +258,18 @@ trait BoxContent {
 
     /*
     |
+    | ================================= Web links API Methods ==================================
+    | Check Box documentation here https://developer.box.com/reference#web-link-object
+    |
+    */
+
+    public function getWebLink($id, $json = false) {
+	$url = $this->api_url . "/web_links/$id";
+	return $this->get($url, $json);
+    }
+
+    /*
+    |
     | ================================= Shared Items API Methods ==================================
     | Check Box documentation here https://box-content.readme.io/reference#get-a-shared-item
     |
